@@ -41,19 +41,19 @@ To describe a consensus problem: A distributed system consists of n processes : 
 
 ### System Model
 
-#### Network model
+#### 1. Network model
 
 
 
-<img src="figure/NetworkModel.png" >
+<img src="figure/NetworkModel.png" style="zoom:50%;" />
 
 
 
-##### Synchronous
+##### - Synchronous
 
 响应时间是在一个固定且已知的有限范围内.
 
-##### Asynchronous
+##### - Asynchronous
 
 响应时间是无限的.
 
@@ -87,9 +87,35 @@ Liveness: 分布式系统最终回认同某一个值.
 
 
 
-#### Failure Model
+#### 2. Failure Model
 
-#### Message Model
+1. Fail-Stop Failures: 节点突然宕机并停止响应其他节点
+2. Byzantine Failures: 源自拜占庭将军问题, 指节点响应的数据可能会产生无法预料的后果. 可能会相互矛盾或完全没有意义, 这个节点甚至在说谎, 比如黑客入侵的节点.
+
+#### 3. Message Model
+
+1. Oral Message: 消息在转述时可能被篡改
+2. Signature Message: 消息被传出来后时无法被修改的, 一旦被篡改就会被发现.
 
 
+
+## Consensus 
+
+<img src="figure/2.png" style="zoom:50%;" />
+
+### 1. (Regular) Consensus
+
+#### Property
+
+1. **C1. Validity**: Any value **decided** is a value proposed.
+
+2. **C2.Agreement**: No two **correct** processes decide differently.
+
+3. **C3.Termination**: Every correct process **eventually decides**.
+
+4. **C4.Integrity**: No process decides twice.
+
+   
+
+### 2. Uniform Consensus
 
