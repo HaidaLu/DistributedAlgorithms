@@ -105,17 +105,66 @@ Liveness: 分布式系统最终回认同某一个值.
 
 ### 1. (Regular) Consensus
 
-#### Property
+#### (1) Property
 
 1. **C1. Validity**: Any value **decided** is a value proposed.
-
 2. **C2.Agreement**: No two **correct** processes decide differently.
-
 3. **C3.Termination**: Every correct process **eventually decides**.
-
 4. **C4.Integrity**: No process decides twice.
 
-   
+
+
+#### (2) Regular Consensus Fail-Stop Model Overview
+
+- The processes exchange and update proposals in rounds and decide on the value of the non-suspected process with the smallest id.
+- The processes go through rounds incrementally(1 to n): in each round, the process with the **id corresponding to that round is the leader** of the round.
+- The leader of a round decides its current proposal and broadcasts it to all.
+- A process that is not leader in a round waits(a) to deliver the proposal of the leader in that round to adopt it, or (b) to suspect the leader.
+
+Summary: 
+
+**Loop through rounds 1 to N, in round i**:
+
+*1. process i is leader*:  broadcasts proposal v and decides proposal v.
+
+*2. Other processes*: 
+
+	- adopt i's proposal v and remember **currentProposal i**
+	- Detect crash of i.
+
+
+
+#### (3) Regular Consensus Fail-Stop Model Implementation
+
+<img src="figure/3.png" style="zoom:30%;" />
+
+<img src="figure/4.png" style="zoom:30%;" />
+
+​					*Set process's initial proposal, unless it has already adopted another node's*
+
+<img src="figure/5.png" style="zoom:30%;" />
+
+​	***bebDeliver**:Invariant: only adopt "newer" than what you have.*
+
+***	delivered[round] = true or Pround in suspected**: Next round if deliver or crash*
+
+<img src="figure/6.png" style="zoom:30%;" />
+
+​					*Note: **- *Pround = self* : If I am leader ***
+
+​								*- broadcast[round] = false -> trigger once per round*
+
+​								*- currentProposal != nil: trigger if I have proposal*
+
+​								*- trigger<Decide, currentProposal> : permanently decide.*
+
+​						*如果我是leader, decide自己, 再将currentProposal beb给其他进程*
+
+<img src="figure/7.png" style="zoom:30%;" />
+
+<img src="figure/8.png" style="zoom:30%;" />
+
+
 
 ### 2. Uniform Consensus
 
