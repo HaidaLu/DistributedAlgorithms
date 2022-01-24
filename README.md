@@ -2,7 +2,7 @@
 
 # DistributedAlgorithms
 
-#Consensus
+# Consensus
 
 In the consensus problem, the processes propose values(Here we consider Single value consensus) and have to agree on one among these values.
 
