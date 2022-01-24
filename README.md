@@ -136,6 +136,20 @@ Summary:
 
 #### (3) Regular Consensus Fail-Stop Model Implementation
 
+总结: 
+
+**1. init** 初始化;
+
+ **2. crash**: 检测故障; 
+
+**3. Propose**: 如果没接受过别的proposal就自己propose一个;
+
+**4. bebDeliver**: 接受该轮proposal; 
+
+**5.已经deliver或是检测到crash**;
+
+**6. Leader Propose**
+
 <img src="figure/3.png" style="zoom:30%;" />
 
 <img src="figure/4.png" style="zoom:30%;" />
@@ -144,13 +158,13 @@ Summary:
 
 <img src="figure/5.png" style="zoom:30%;" />
 
-​	***bebDeliver**:Invariant: only adopt "newer" than what you have.*
+​	
 
-***	delivered[round] = true or Pround in suspected**: Next round if deliver or crash*
+​	***delivered[round] = true or Pround in suspected**: Next round if deliver or crash*
 
 <img src="figure/6.png" style="zoom:30%;" />
 
-​					*Note: **- *Pround = self* : If I am leader ***
+​					Note: **- *Pround = self : If I am leader***
 
 ​								*- broadcast[round] = false -> trigger once per round*
 
@@ -166,5 +180,88 @@ Summary:
 
 
 
-### 2. Uniform Consensus
+#### (4) Correctness argument
 
+**How many failures it can tolerate?? -> N-1**
+
+-> Basic idea: 
+
+1. There must be a first correct leader P
+2. P decides its value v and beb-casts v.
+   1. every correct process adopts v 
+   2. Future rounds will only propose v.
+
+
+
+#### 上述算法或许可能出现的问题? (课程外)
+
+<img src="figure/9.png" style="zoom:70%;" />
+
+在第一轮decide a 后就crash了, 但是对于p3 它收到p1的a比收到p2还晚, 所以它在第三轮propose了a, 而p2在propse b后就decide了. 所以最后correct的p2 p3 decide differently.
+
+解决方式: **Invariant: only adopt "newer" than what you have.**
+
+<img src="figure/10.png" style="zoom:70%;" />
+
+
+
+### 2. Uniform Consensus Algorithm II
+
+#### (1) Property
+
+1. C1. Validity: Any value decided is a value proposed.
+2. **C2.Agreement: No two processes decide differently.**
+3. C3.Termination: Every correct process eventually decides
+4. C4.Integrity: No process decides twice.
+
+
+
+#### (2) Overview
+
+- The processes go through rounds incrementally (1 to n): in each round I, process PI sends its currentProposal to all.
+- A process adopts anty currentProposal it receives.
+- Processes decide on their currentProposal values **at the end of round n.**
+
+
+
+#### (3) Implementation
+
+总结: 与Regular Consensus 的不同之处
+
+(1): 多了一个变量**decided** 在init event中赋值为false
+
+(2): 已经deliver或是检测到crash: 如果已经到第n轮并且还没decided 那就decide, 否则round + 1;
+
+(3): If I am leader: 这个阶段不需要decide自己, 只需要将当前值beb给其他所有processes
+
+<img src="figure/11.png" style="zoom:70%;" />
+
+#### (4) Correctness Argument
+
+##### A. 
+
+**Lemma: If a process pJ completes round I without receiving any message from pI and J > I, then pI crashes by the end of round J.**
+
+Proof(?): 假设J > I, J 首先完成I 轮但是没有收到pI 的消息, 而pI又completes round J.  那么pJ 会在round I suspect pI.
+
+因此, pI has crashed before pJ completes round I. 
+
+所以在第J 轮, 要么 pI suspects pJ (不可能, 因为pI 已经crash了) 要么 pI receives round J message (也不可能因为I 已经crash了)
+
+##### B. Uniform Agreement
+
+Consider the process with the lowest id which decides, say pI. Thus, pI completes round n. By previous lemma, in round I, every pJ with J > I receives the currentProposal of pI and adopts it. Thus, every process which sends a message after round I or decides, has the same currentProposal at the end of round I.
+
+
+
+### 3. Uniform Consensus Algorithm III
+
+#### (1). Overview
+
+- A uniform consensus algorithm assuming: 
+  - A correct majority
+  - a <>P failure detector
+- Basic idea: the processes alternate in the role of a phase coordinator until one of them succeeds in imposing a decision.
+- <>P ensures: 
+  - **Strong completeness**: Eventually every process that crashes is permanently suspected by all correct processes.
+  - **Eventual strong accuracy**: Eventually no correct process is suspected by any process.
