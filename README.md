@@ -43,7 +43,9 @@ To describe a consensus problem: A distributed system consists of n processes : 
 
 #### Network model
 
-<img src="/Users/luhaida/Documents/EPFL/CS-451Distributed algorithm/DistributedAlgorithms/figure/NetworkModel.png" style="zoom:50%;" />
+
+
+<img src="figure/NetworkModel.png" >
 
 
 
