@@ -9,5 +9,7 @@
 
 - [TerminatingReliableBroadcast](TerminatingReliableBroadcast.md)
 
+- [Non-BlockingAtomicCommit](Non-BlockingAtomicCommit.md)
+
   
 
