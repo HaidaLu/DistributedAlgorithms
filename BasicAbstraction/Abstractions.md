@@ -1,3 +1,13 @@
+- [Abstracting Time](#abstracting-time)
+  - [2. Perfect Failure Detection](#2-perfect-failure-detection)
+    - [Specification. P](#specification-p)
+  - [3. Leader Election](#3-leader-election)
+    - [Specification.](#specification)
+  - [4. Eventually Perfect Failure Detection](#4-eventually-perfect-failure-detection)
+    - [Specification.](#specification-1)
+  - [5. Eventual Leader Election](#5-eventual-leader-election)
+    - [Specification.](#specification-2)
+    - [Eventual leader-election implemented with Eventual Perfect Failure Detector](#eventual-leader-election-implemented-with-eventual-perfect-failure-detector)
 ## Abstracting Time
 
 ### 2. Perfect Failure Detection
