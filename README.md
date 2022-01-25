@@ -1,42 +1,73 @@
 
 
-# 1. DistributedAlgorithms
+# DistributedAlgorithms
 
-# 2. Consensus
+# Consensus- [DistributedAlgorithms](#distributedalgorithms)
+- [DistributedAlgorithms](#distributedalgorithms)
+- [Consensus- DistributedAlgorithms](#consensus--distributedalgorithms)
+    - [Summary](#summary)
+  - [Introduction](#introduction)
+    - [System Model](#system-model)
+      - [Network model](#network-model)
+        - [- Synchronous](#--synchronous)
+        - [- Asynchronous](#--asynchronous)
+      - [Failure Model](#failure-model)
+      - [Message Model](#message-model)
+  - [Consensus](#consensus)
+    - [(Regular) Consensus](#regular-consensus)
+      - [(1) Property](#1-property)
+      - [(2) Regular Consensus Fail-Stop Model Overview](#2-regular-consensus-fail-stop-model-overview)
+      - [(3) Regular Consensus Fail-Stop Model Implementation](#3-regular-consensus-fail-stop-model-implementation)
+      - [(4) Correctness argument](#4-correctness-argument)
+      - [上述算法或许可能出现的问题? (课程外)](#上述算法或许可能出现的问题-课程外)
+    - [Uniform Consensus Algorithm II](#uniform-consensus-algorithm-ii)
+      - [(1) Property](#1-property-1)
+      - [(2) Overview](#2-overview)
+      - [(3) Implementation](#3-implementation)
+      - [(4) Correctness Argument](#4-correctness-argument-1)
+        - [A.](#a)
+        - [B. Uniform Agreement](#b-uniform-agreement)
+    - [Uniform Consensus Algorithm III](#uniform-consensus-algorithm-iii)
+      - [(1). Overview](#1-overview)
+      - [(2). Consensus algorithm III](#2-consensus-algorithm-iii)
+      - [(3). Correctness argument](#3-correctness-argument)
+        - [Correctness argument A](#correctness-argument-a)
+        - [Correctness argument B](#correctness-argument-b)
+      - [(4). Agreement is never violated (???????)](#4-agreement-is-never-violated-)
 
-- [1. DistributedAlgorithms](#1-distributedalgorithms)
-- [2. Consensus](#2-consensus)
-    - [2.0.1. Summary](#201-summary)
-  - [2.1. Introduction](#21-introduction)
-    - [2.1.1. System Model](#211-system-model)
-      - [2.1.1.1. Network model](#2111-network-model)
-        - [2.1.1.1.1. - Synchronous](#21111---synchronous)
-        - [2.1.1.1.2. - Asynchronous](#21112---asynchronous)
-      - [2.1.1.2. Failure Model](#2112-failure-model)
-      - [2.1.1.3. Message Model](#2113-message-model)
-  - [2.2. Consensus](#22-consensus)
-    - [2.2.1. (Regular) Consensus](#221-regular-consensus)
-      - [2.2.1.1. (1) Property](#2211-1-property)
-      - [2.2.1.2. (2) Regular Consensus Fail-Stop Model Overview](#2212-2-regular-consensus-fail-stop-model-overview)
-      - [2.2.1.3. (3) Regular Consensus Fail-Stop Model Implementation](#2213-3-regular-consensus-fail-stop-model-implementation)
-      - [2.2.1.4. (4) Correctness argument](#2214-4-correctness-argument)
-      - [2.2.1.5. 上述算法或许可能出现的问题? (课程外)](#2215-上述算法或许可能出现的问题-课程外)
-    - [2.2.2. Uniform Consensus Algorithm II](#222-uniform-consensus-algorithm-ii)
-      - [2.2.2.1. (1) Property](#2221-1-property)
-      - [2.2.2.2. (2) Overview](#2222-2-overview)
-      - [2.2.2.3. (3) Implementation](#2223-3-implementation)
-      - [2.2.2.4. (4) Correctness Argument](#2224-4-correctness-argument)
-        - [2.2.2.4.1. A.](#22241-a)
-        - [2.2.2.4.2. B. Uniform Agreement](#22242-b-uniform-agreement)
-    - [2.2.3. Uniform Consensus Algorithm III](#223-uniform-consensus-algorithm-iii)
-      - [2.2.3.1. (1). Overview](#2231-1-overview)
-      - [2.2.3.2. (2). Consensus algorithm III](#2232-2-consensus-algorithm-iii)
-      - [2.2.3.3. (3). Correctness argument](#2233-3-correctness-argument)
-        - [2.2.3.3.1. Correctness argument A](#22331-correctness-argument-a)
-        - [2.2.3.3.2. Correctness argument B](#22332-correctness-argument-b)
-      - [2.2.3.4. (4). Agreement is never violated (???????)](#2234-4-agreement-is-never-violated-)
+- [DistributedAlgorithms](#distributedalgorithms)
+- [Consensus- DistributedAlgorithms](#consensus--distributedalgorithms)
+    - [Summary](#summary)
+  - [Introduction](#introduction)
+    - [System Model](#system-model)
+      - [Network model](#network-model)
+        - [- Synchronous](#--synchronous)
+        - [- Asynchronous](#--asynchronous)
+      - [Failure Model](#failure-model)
+      - [Message Model](#message-model)
+  - [Consensus](#consensus)
+    - [(Regular) Consensus](#regular-consensus)
+      - [(1) Property](#1-property)
+      - [(2) Regular Consensus Fail-Stop Model Overview](#2-regular-consensus-fail-stop-model-overview)
+      - [(3) Regular Consensus Fail-Stop Model Implementation](#3-regular-consensus-fail-stop-model-implementation)
+      - [(4) Correctness argument](#4-correctness-argument)
+      - [上述算法或许可能出现的问题? (课程外)](#上述算法或许可能出现的问题-课程外)
+    - [Uniform Consensus Algorithm II](#uniform-consensus-algorithm-ii)
+      - [(1) Property](#1-property-1)
+      - [(2) Overview](#2-overview)
+      - [(3) Implementation](#3-implementation)
+      - [(4) Correctness Argument](#4-correctness-argument-1)
+        - [A.](#a)
+        - [B. Uniform Agreement](#b-uniform-agreement)
+    - [Uniform Consensus Algorithm III](#uniform-consensus-algorithm-iii)
+      - [(1). Overview](#1-overview)
+      - [(2). Consensus algorithm III](#2-consensus-algorithm-iii)
+      - [(3). Correctness argument](#3-correctness-argument)
+        - [Correctness argument A](#correctness-argument-a)
+        - [Correctness argument B](#correctness-argument-b)
+      - [(4). Agreement is never violated (???????)](#4-agreement-is-never-violated-)
 
-### 2.0.1. Summary
+### Summary
 
 - (Uniform) Consensus problem is an important problem to maintain consistency
 - Three algorithms: 
@@ -62,7 +93,7 @@ Solving Consensus is key to solving:
 
 
 
-## 2.1. Introduction
+## Introduction
 
 Alice: Where are we go today?
 
@@ -83,9 +114,9 @@ To describe a consensus problem: A distributed system consists of n processes : 
 
 
 
-### 2.1.1. System Model
+### System Model
 
-#### 2.1.1.1. Network model
+#### Network model
 
 
 
@@ -93,11 +124,11 @@ To describe a consensus problem: A distributed system consists of n processes : 
 
 
 
-##### 2.1.1.1.1. - Synchronous
+##### - Synchronous
 
 响应时间是在一个固定且已知的有限范围内.
 
-##### 2.1.1.1.2. - Asynchronous
+##### - Asynchronous
 
 响应时间是无限的.
 
@@ -131,25 +162,25 @@ Liveness: 分布式系统最终回认同某一个值.
 
 
 
-#### 2.1.1.2. Failure Model
+#### Failure Model
 
 1. Fail-Stop Failures: 节点突然宕机并停止响应其他节点
 2. Byzantine Failures: 源自拜占庭将军问题, 指节点响应的数据可能会产生无法预料的后果. 可能会相互矛盾或完全没有意义, 这个节点甚至在说谎, 比如黑客入侵的节点.
 
-#### 2.1.1.3. Message Model
+#### Message Model
 
 1. Oral Message: 消息在转述时可能被篡改
 2. Signature Message: 消息被传出来后时无法被修改的, 一旦被篡改就会被发现.
 
 
 
-## 2.2. Consensus 
+## Consensus 
 
 <img src="figure/2.png" style="zoom:50%;" />
 
-### 2.2.1. (Regular) Consensus
+### (Regular) Consensus
 
-#### 2.2.1.1. (1) Property
+#### (1) Property
 
 1. **C1. Validity**: Any value **decided** is a value proposed.
 2. **C2.Agreement**: No two **correct** processes decide differently.
@@ -158,7 +189,7 @@ Liveness: 分布式系统最终回认同某一个值.
 
 
 
-#### 2.2.1.2. (2) Regular Consensus Fail-Stop Model Overview
+#### (2) Regular Consensus Fail-Stop Model Overview
 
 - The processes exchange and update proposals in rounds and decide on the value of the non-suspected process with the smallest id.
 - The processes go through rounds incrementally(1 to n): in each round, the process with the **id corresponding to that round is the leader** of the round.
@@ -178,7 +209,7 @@ Summary:
 
 
 
-#### 2.2.1.3. (3) Regular Consensus Fail-Stop Model Implementation
+#### (3) Regular Consensus Fail-Stop Model Implementation
 
 总结: 
 
@@ -224,7 +255,7 @@ Summary:
 
 
 
-#### 2.2.1.4. (4) Correctness argument
+#### (4) Correctness argument
 
 **How many failures it can tolerate?? -> N-1**
 
@@ -237,7 +268,7 @@ Summary:
 
 
 
-#### 2.2.1.5. 上述算法或许可能出现的问题? (课程外)
+#### 上述算法或许可能出现的问题? (课程外)
 
 <img src="figure/9.png" style="zoom:70%;" />
 
@@ -249,9 +280,9 @@ Summary:
 
 
 
-### 2.2.2. Uniform Consensus Algorithm II
+### Uniform Consensus Algorithm II
 
-#### 2.2.2.1. (1) Property
+#### (1) Property
 
 1. C1. Validity: Any value decided is a value proposed.
 2. **C2.Agreement: No two processes decide differently.**
@@ -260,7 +291,7 @@ Summary:
 
 
 
-#### 2.2.2.2. (2) Overview
+#### (2) Overview
 
 - The processes go through rounds incrementally (1 to n): in each round I, process PI sends its currentProposal to all.
 - A process adopts anty currentProposal it receives.
@@ -268,7 +299,7 @@ Summary:
 
 
 
-#### 2.2.2.3. (3) Implementation
+#### (3) Implementation
 
 总结: 与Regular Consensus 的不同之处
 
@@ -280,9 +311,9 @@ Summary:
 
 <img src="figure/11.png" style="zoom:70%;" />
 
-#### 2.2.2.4. (4) Correctness Argument
+#### (4) Correctness Argument
 
-##### 2.2.2.4.1. A. 
+##### A. 
 
 **Lemma: If a process pJ completes round I without receiving any message from pI and J > I, then pI crashes by the end of round J.**
 
@@ -292,15 +323,15 @@ Proof(?): 假设J > I, J 首先完成I 轮但是没有收到pI 的消息, 而pI�
 
 所以在第J 轮, 要么 pI suspects pJ (不可能, 因为pI 已经crash了) 要么 pI receives round J message (也不可能因为I 已经crash了)
 
-##### 2.2.2.4.2. B. Uniform Agreement
+##### B. Uniform Agreement
 
 Consider the process with the lowest id which decides, say pI. Thus, pI completes round n. By previous lemma, in round I, every pJ with J > I receives the currentProposal of pI and adopts it. Thus, every process which sends a message after round I or decides, has the same currentProposal at the end of round I.
 
 
 
-### 2.2.3. Uniform Consensus Algorithm III
+### Uniform Consensus Algorithm III
 
-#### 2.2.3.1. (1). Overview
+#### (1). Overview
 
 - A uniform consensus algorithm assuming: 
   - A correct majority
@@ -328,7 +359,7 @@ Consider the process with the lowest id which decides, say pI. Thus, pI complete
 
 -> 
 
-#### 2.2.3.2. (2). Consensus algorithm III 
+#### (2). Consensus algorithm III 
 
 - The algorithm is also round-based: processes move incrementally from one round to the other
 - Process pi is ***leader*** in every round k such that k mod N = I
@@ -354,9 +385,9 @@ Consider the process with the lowest id which decides, say pI. Thus, pI complete
 
 <img src="figure/15.png" style="zoom:70%;" />
 
-#### 2.2.3.3. (3). Correctness argument 
+#### (3). Correctness argument 
 
-##### 2.2.3.3.1. Correctness argument A
+##### Correctness argument A
 
 - **Validity and integrity** are trivial
 - Consider **termination**: (所有correct process最终都会decide吗?) -> if a correct process decides, it uses reliable broadcast to send to decision to all : every correct process decides.
@@ -364,7 +395,7 @@ Consider the process with the lowest id which decides, say pI. Thus, pI complete
 - By the correct ***majority*** assumption and the  ***completeness*** property of the failure detector, no correct process remains blocked forever in some phase.
 - by the  ***accuracy*** property of the failure detector, some correct process reaches a round where it is leader and it is not suspected and reaches a decision in that round: a contradiction.
 
-##### 2.2.3.3.2. Correctness argument B
+##### Correctness argument B
 
 - Consider  ***agreement***
 - Let k be the first round in which some process pi decides some value v, i.e., pi is the leader of round k and pi decides v in k.
@@ -373,7 +404,7 @@ Consider the process with the lowest id which decides, say pI. Thus, pI complete
 
 <img src="figure/17.png" style="zoom:70%;" />
 
-#### 2.2.3.4. (4). Agreement is never violated (???????)
+#### (4). Agreement is never violated (???????)
 
 - Look at a "totally unreliable" failure detector(provides no guarantees)
   - may always suspect everybody (????)
