@@ -62,12 +62,16 @@ Clearly, if q now crashes, p will eventually suspect q and will never revise its
 
 Instead, we can implement a weaker notion of leader election -> ensures the uniqueness of the leader *only eventually*.
 
-An eventual leader-election abstraction canalso be implemented with crash-recovery and arbitrary-fault process abstractions.
+An eventual leader-election abstraction can also be implemented with crash-recovery and arbitrary-fault process abstractions.
 
 #### Specification. 
 
 Many leaders might be elected during the same period fo time without having crashed. Once a unique leader is determined, and does not change agiain, we say that the leader has *stabilized*. 
 
+#### Eventual leader-election implemented with Eventual Perfect Failure Detector 
+
 <img src="7.png" style="zoom:70%;" />
 
 <img src="8.png" style="zoom:70%;" />
+
+Algorithm 2.8, called “Monarchical Eventual Leader Detection,” implements Ω using the same approach as used in Algorithm 2.6 (“Monarchical Leader Election”), with the only difference that **deaths in the royal family are not final**. The algorithm maintains the set of processes that are suspected by <>P and declares the nonsuspected process with the highest rank to be the leader. **Eventually**, and provided at least one process is correct, the same correct process will be trusted by all correct processes.
