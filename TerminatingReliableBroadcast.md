@@ -15,4 +15,4 @@ TRB is however strictly stronger than (uniform) reliable broadcast.
 ## Problem Description
 
 - The problem is defined for a specific broadcaster process pi = src(known by all processes)
-- Process src is supposed to broadcast a message m(distinct from $\varphi$)
+- Process src is supposed to broadcast a message m(distinct from \varphi)
