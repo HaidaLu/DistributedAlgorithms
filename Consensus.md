@@ -345,7 +345,7 @@ Consider the process with the lowest id which decides, say pI. Thus, pI complete
 - How does pi decide? -> pi executes steps 1-2-3
 
   - 1. Pi selects among a majority the latest adopted value (latest with respect to the round in which the value is adopted)
-    2. pi imposes that value at a majority: any process in that majority adopts that value -pi fails if it is suspected.
+    2. pi **imposes** that value at a majority: any process in that majority adopts that value -pi fails if it is suspected.
     3. pi decides and braodcast the decision to all.
 
 <img src="figure/16.png" style="zoom:70%;" />

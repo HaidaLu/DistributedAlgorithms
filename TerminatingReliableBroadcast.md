@@ -1,10 +1,17 @@
-## Summary
+- [1. Summary](#1-summary)
+- [2. Overview](#2-overview)
+- [3. Problem Description](#3-problem-description)
+  - [3.1. Terminating Reliable Broadcast(pi)](#31-terminating-reliable-broadcastpi)
+- [4. Implementation](#4-implementation)
+  - [4.1. Consensus-Based Uniform Terminating Reliable Broadcast](#41-consensus-based-uniform-terminating-reliable-broadcast)
+- [5. TRB Algorithm ? Perfect Failure Detector P](#5-trb-algorithm--perfect-failure-detector-p)
+## 1. Summary
 
 总而言之, 我们可能会遇到一种情况, 在指定一个进程发送, 其他进程接收时, 发送进程发了消息但是crashes, 一部分接收进程能接收到(触发bebDeliver事件>, 但是一部分不能(该进程触发crash事件). 我们让前者接受到的就为m, 后者为一个特定值. 然后将这些进程通过(uniform) consensus, 决定我们最终要deliver的值.
 
 
 
-## Overview
+## 2. Overview
 
 **Throwback**: Reliable broadcast: ensure that if a message is delivered to a process then it is delivered to all correct processes.
 
@@ -26,7 +33,7 @@ TRB is however strictly stronger than (uniform) reliable broadcast.
 
 接收进程都在等待发送进程. 发送进程没有crash, 那接收进程就都deliver 发送进程发送的消息, 如果发送进程在接收进程接收到m前就crash了, 那就deliver 一个SF.
 
-## Problem Description
+## 3. Problem Description
 
 A TRB protocol typically organizes the system into a sending process and a set of receiving processes, which may include the sender itself. 
 
@@ -54,7 +61,7 @@ A correct process is therefore guaranteed that data delivered to it was also del
 
 
 
-### Terminating Reliable Broadcast(pi)
+### 3.1. Terminating Reliable Broadcast(pi)
 
 **TRB1. Integrity**: If a process delivers a message m, then either m is $\varphi$ or m was broadcast by src.
 
@@ -66,9 +73,9 @@ A correct process is therefore guaranteed that data delivered to it was also del
 
 
 
-## Implementation 
+## 4. Implementation 
 
-### Consensus-Based Uniform Terminating Reliable Broadcast
+### 4.1. Consensus-Based Uniform Terminating Reliable Broadcast
 
 One may think that the problem of the faulty sender could have been avoided if s had used a uniform reliable broadcast primitive to broadcast m. 
 
@@ -98,7 +105,7 @@ Unfortunately, this is not the case. Consider process p in the example. The use 
 
 
 
-## TRB Algorithm ? Perfect Failure Detector P
+## 5. TRB Algorithm ? Perfect Failure Detector P
 
 - The TRB algorithm uses the perfect failure detector P 
 - Is P also necessary?
