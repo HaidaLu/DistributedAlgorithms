@@ -14,7 +14,19 @@ UCons(0, 0-1)?
 
 课件里的这些图例 不是特别明白
 
+- Atomic Commit: BAC 和 NBAC  区别??
+- 分布式事务
+- P 和 <>P
+
+
+
+相关讨论
+
+https://www.zhihu.com/question/275845393
+
 ## 1. Transcations
+
+[分布式事务](https://zhuanlan.zhihu.com/p/263555694)
 
 - A transaction is an atomic program describing a sequence of accesses to shared and distributed information.
 - A transaction can be terminated either by ***committing or aborting***
@@ -56,7 +68,9 @@ Despite differences between their opionions, all data managers need to make sure
 
 但在现实情况下，失败的风险很高。在一个数据库事务的执行过程中，有可能会遇上事务操作失败、[数据库系统](https://baike.baidu.com/item/数据库系统)/[操作系统](https://baike.baidu.com/item/操作系统)失败，甚至是存储介质失败等情况。这便需要[DBMS](https://baike.baidu.com/item/DBMS)对一个执行失败的事务执行恢复操作，将其数据库状态恢复到一致状态（数据的[一致性](https://baike.baidu.com/item/一致性)得到保证的状态）。为了实现将数据库状态恢复到一致状态的功能，[DBMS](https://baike.baidu.com/item/DBMS)通常需要维护[事务日志](https://baike.baidu.com/item/事务日志)以追踪事务中所有影响数据库数据的操作。
 
+<img src="figure/3.1.png" style="zoom:20%;" />
 
+<img src="figure/3.2.png" style="zoom:20%;" />
 
 
 
@@ -72,13 +86,65 @@ Despite differences between their opionions, all data managers need to make sure
 
 
 
+## The Consistency Contract
+
+Reference:
+
+[分布式一致性: 一致性协议](https://zhuanlan.zhihu.com/p/66970196)
+
+<img src="figure/3.19.png" style="zoom:20%;" />
+
+一致性模型本质上是进程与数据存储的约定, 通过一致性模型我们可以理解和推理在分布式系统中数据复制需要考虑的问题和基本假设. **一致性协议描述了特定一致性模型的实现**. 一致性协议根据是否允许数据分歧可以分为以下两种:
+
+- **单主协议（不允许数据分歧）**：整个分布式系统就像一个单体系统，所有写操作都由主节点处理并且同步给其他副本。例如主备同步、2PC、Paxos 都属于这类协议。
+- **多主协议（允许数据分歧）**：所有写操作可以由不同节点发起，并且同步给其他副本。例如 Gossip、POW。
+
+**它们的核心区别在于是否允许多个节点发起写操作，单主协议只允许由主节点发起写操作，因此它可以保证操作有序性，一致性更强。而多主协议允许多个节点发起写操作，因此它不能保证操作的有序性，只能做到弱一致性。**
+
+### 单主协议
+
+单主协议的共同点在于都会用一个主节点来负责写操作, 这样能保证全局写的顺序一致性.
+
+#### 主备复制
+
+主备复制可以说是最常用的数据复制方法，也是最基础的方法，很多其他协议都是基于它的变种。 **主备复制要求所有的写操作都在主节点上进行，然后将操作的日志发送给其他副本。**可以发现由于主备复制是有延迟的，所以它实现的是最终一致性。
+
+主备复制的实现方式：主节点处理完写操作之后立即返回结果给客户端，写操作的日志异步同步给其他副本。这样的好处是性能高，客户端不需要等待数据同步，缺点是如果主节点同步数据给副本之前数据缺失了，那么这些数据就永久丢失了。MySQL 的主备同步就是典型的异步复制。
+
+#### Two Phase Commit(Blocking Atomic Commit)
+
+2PC是关系型数据库常用的保持分布式事务一致性的协议, 它也属于同步复制协议, 即数据都同步完成之后才返回客户端结果. 可以发现2PC保证所有节点数据一致之后才返回给客户端, 实现了顺序一致性. 
+
+2PC把数据复制分为两步:
+
+- Propose: 主节点将数据发送给所有副本, 每个副本都要响应提交或者回滚, 如果副本投票提交, 那么它会将数据放到暂存区域, 等待最终提交.
+- Commit: 主节点收到其他副本的响应, 如果所有副本都认为可以提交, 那么就发送确认提交给所有副本让它们提交更新, 数据就会从暂存区域移到永久区域. 只要有一个副本返回回滚就整体回滚.
+
+<img src="figure/3.5.png" style="zoom:20%;" />
+
+<img src="figure/3.6.png" style="zoom:20%;" />
+
+<img src="figure/3.7.png" style="zoom:20%;" />
+
+协调者在发送准备命令之后挂了, 事务执行不下去, 参与者都执行了处于事务资源锁定的状态. 不仅事务执行不下去, 还会因为锁定了一些公共资源而阻塞系统其他操作. 可能会发生阻塞.
+
+故障分析: https://zhuanlan.zhihu.com/p/183753774
+
+
+
+
+
 ## 3. Non-Blocking Atomic Commit
+
+**Non Blocking: 非阻塞式**
+
+An atomic commitment protocol is said to be non-blocking if it permits transaction termination to proceed at correct participants despite failures of others.
 
 The ***nonblocking atomic commit(NBAC)*** abstraction is used precisely to solve this problem in a reliable way. The processes, each representing a data manager, agree on the outcome of a transaction, which is either to *commit* or to *abort* the transaction. Every process initially proposes a value for this decision, which is either a *Commit* value or an *Abort* value, depending on its *local state* and *opinion* about the transaction.
 
-<img src="figure/3.1.png" style="zoom:20%;" />
 
-<img src="figure/3.2.png" style="zoom:20%;" />
+
+
 
 - As in consensus, every process has an initial value 0 (no) or 1(yes) and must decide on a final value 0 (abort) or 1 (commit)
 - The proposition means the ability to commit the transaction
@@ -105,11 +171,11 @@ The ***nonblocking atomic commit(NBAC)*** abstraction is used precisely to solve
 
 <img src="figure/3.4.png" style="zoom:20%;" />
 
-<img src="figure/3.5.png" style="zoom:20%;" />
 
-<img src="figure/3.6.png" style="zoom:20%;" />
 
-<img src="figure/3.7.png" style="zoom:20%;" />
+
+
+
 
 
 
