@@ -77,6 +77,7 @@ textbook version:
 <img src="figure/4.9.png" style="zoom:50%;" />
 
 change 2
+change 3 
 
 
 ### 2. Implementation
