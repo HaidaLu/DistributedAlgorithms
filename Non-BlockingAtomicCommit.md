@@ -7,6 +7,8 @@
 	- [5.2. Fail-Stop Algorithm: Consensus-Based Nonblocking Atomic Commit](#52-fail-stop-algorithm-consensus-based-nonblocking-atomic-commit)
 	- [5.3. Do we need Perfect failure detector P?](#53-do-we-need-perfect-failure-detector-p)
 
+changes 1. 
+
 
 Decide(0-1) ? 
 
